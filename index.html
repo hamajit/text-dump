@@ -25,6 +25,7 @@
         <p data-text="appearance"></p>
         <p data-text="privacy">Your note stays in your browser until you download it. Drafts are not saved.</p>
         <p data-text="download">Your browser may ask for permission to download or where to save the file.</p>
+        <p data-text="iphone"></p>
       </div></details>
     </div>
     <p class="status" id="status" role="status" aria-live="polite"></p>
@@ -33,18 +34,82 @@
 <script>
 (() => {
   const translations = {
-    en:{filename:"The filename contains the local date and time and up to 10 characters from the first line.",undoInfo:"The input clears when the download is requested, even if saving is canceled. Undo restores the most recent dump while the page stays open; it is disabled while the input contains text.",appearance:"The appearance follows your device’s light or dark setting.",undo:'Undo',about:'about',title:'A little space to write.',intro:"Enter Markdown and press dump to request a Markdown download with Obsidian-compatible metadata.",label:'Your note',placeholder:"What's on your mind?",hint:'Markdown is welcome.',post:'Post',privacy:'Your note stays in your browser until you download it. Drafts are not saved.',download:'Your browser may ask for permission to download or where to save the file. If you cancel, the input has already been cleared.',done:'Download requested.',error:'Could not start the download. Your note is still here.'},
-    ja:{filename:"ファイル名には端末の日時と、一行目の先頭10文字までが入ります。",undoInfo:"ダウンロードを要求すると入力欄が消えます。保存をキャンセルした場合も「元に戻す」で直前の文章を復元できます。入力欄に文字がある間は押せません。",appearance:"画面の明暗は端末の設定に従います。",undo:'元に戻す',about:'説明',title:'ひとこと、書きとめる。',intro:"Markdownを入力してdumpを押すと、Obsidianで使えるメタデータ付きのMarkdownファイルをダウンロードします。",label:'ノート',placeholder:'いま、何を考えていますか？',hint:'Markdownで入力できます。',post:'投稿',privacy:'ノートはブラウザ内で処理されます。下書きは保存されません。',download:'ブラウザによってはダウンロードの許可や保存先を確認されます。キャンセルしても入力欄はすでに消去されています。',done:'ダウンロードを要求しました。',error:'ダウンロードを開始できませんでした。入力内容は残っています。'},
-    zh:{filename:"文件名包含设备的日期、时间和第一行的前 10 个字符。",undoInfo:"请求下载时输入框会清空，即使取消保存也一样。页面保持打开时，撤销可恢复最近一次内容；输入框有文字时无法撤销。",appearance:"界面明暗跟随设备设置。",undo:'撤销',about:'说明',title:'写下此刻的想法。',intro:"输入 Markdown 并按 dump，即可请求下载包含 Obsidian 兼容元数据的 Markdown 文件。",label:'你的笔记',placeholder:'此刻在想什么？',hint:'支持 Markdown。',post:'发布',privacy:'笔记在浏览器中处理。草稿不会保存。',download:'浏览器可能会询问下载权限或保存位置。取消时输入内容也已清除。',done:'已请求下载。',error:'无法开始下载，笔记仍保留在输入框中。'},
-    es:{filename:"El nombre incluye la fecha y hora del dispositivo y hasta 10 caracteres de la primera línea.",undoInfo:"El campo se borra al solicitar la descarga, incluso si cancelas. Deshacer recupera el último texto mientras la página siga abierta; se desactiva si hay texto en el campo.",appearance:"La apariencia sigue el modo claro u oscuro del dispositivo.",undo:'Deshacer',about:'información',title:'Un espacio para escribir.',intro:"Escribe Markdown y pulsa dump para solicitar la descarga de un archivo con metadatos compatibles con Obsidian.",label:'Tu nota',placeholder:'¿Qué estás pensando?',hint:'Puedes usar Markdown.',post:'Publicar',privacy:'La nota se procesa en tu navegador. Los borradores no se guardan.',download:'El navegador puede pedir permiso para descargar o preguntar dónde guardar. Si cancelas, el texto ya se habrá borrado.',done:'Descarga solicitada.',error:'No se pudo iniciar la descarga. Tu nota sigue aquí.'},
-    ko:{filename:"파일 이름에는 기기의 날짜와 시간, 첫 줄의 앞 10자까지 들어갑니다.",undoInfo:"다운로드를 요청하면 저장을 취소해도 입력란이 지워집니다. 페이지가 열려 있는 동안 되돌리기로 직전 내용을 복원할 수 있으며, 입력란에 글자가 있으면 사용할 수 없습니다.",appearance:"화면 밝기는 기기 설정을 따릅니다.",undo:'되돌리기',about:'설명',title:'생각을 잠시 적어 두세요.',intro:"Markdown을 입력하고 dump를 누르면 Obsidian 호환 메타데이터가 포함된 Markdown 파일의 다운로드를 요청합니다.",label:'내 노트',placeholder:'지금 무슨 생각을 하고 있나요?',hint:'Markdown을 사용할 수 있습니다.',post:'게시',privacy:'노트는 브라우저에서 처리됩니다. 임시 저장은 하지 않습니다.',download:'브라우저에서 다운로드 권한이나 저장 위치를 물을 수 있습니다. 취소해도 입력 내용은 이미 지워집니다.',done:'다운로드를 요청했습니다.',error:'다운로드를 시작하지 못했습니다. 입력한 내용은 그대로 남아 있습니다.'}
-  };
+  "en": {
+    "undo": "Undo",
+    "about": "about",
+    "label": "Your note",
+    "intro": "Write in Markdown and press dump to request a Markdown file with Obsidian-compatible metadata.",
+    "filename": "The filename contains the local date and time and up to 10 characters from the first line.",
+    "undoInfo": "The input clears when the download is requested, even if saving is canceled. Undo restores the most recent dump while the page remains open. It is disabled while the input contains text.",
+    "appearance": "The appearance follows your device’s light or dark setting.",
+    "privacy": "Notes are processed in your browser. Drafts and the undo text are lost when the page is reloaded or closed.",
+    "download": "Your browser may ask for download permission or where to save the file.",
+    "iphone": "On iPhone, when adding this page to your Home Screen from Safari, turn off “Open as Web App” if that option is available. This opens it in Safari, where downloads may be easier to save.",
+    "done": "Download requested.",
+    "error": "Could not start the download. Your note is still here."
+  },
+  "ja": {
+    "undo": "元に戻す",
+    "about": "説明",
+    "label": "ノート",
+    "intro": "Markdownを入力してdumpを押すと、Obsidian対応のメタデータを付けたMarkdownファイルのダウンロードを要求します。",
+    "filename": "ファイル名には端末の日時と、一行目の先頭10文字までが入ります。",
+    "undoInfo": "ダウンロードを要求すると、保存をキャンセルした場合も入力欄が消えます。「元に戻す」で直前の文章を復元できます。入力欄に文字がある間は押せません。",
+    "appearance": "画面の明暗は端末の設定に従います。",
+    "privacy": "文章はブラウザ内で処理されます。ページを閉じたり再読み込みしたりすると、下書きと復元用の文章は消えます。",
+    "download": "ブラウザによってはダウンロードの許可や保存先を確認されます。",
+    "iphone": "iPhoneでは、Safariの「ホーム画面に追加」で「ウェブアプリとして開く」が表示されたらオフにしてください。Safariで開くことで、ファイルを保存しやすくなる場合があります。",
+    "done": "ダウンロードを要求しました。",
+    "error": "ダウンロードを開始できませんでした。入力内容は残っています。"
+  },
+  "zh": {
+    "undo": "撤销",
+    "about": "说明",
+    "label": "你的笔记",
+    "intro": "输入 Markdown 并按 dump，请求下载包含 Obsidian 兼容元数据的 Markdown 文件。",
+    "filename": "文件名包含设备的日期、时间和第一行的前 10 个字符。",
+    "undoInfo": "请求下载时输入框会清空，即使取消保存也一样。页面打开期间，撤销可恢复最近一次内容；输入框有文字时无法撤销。",
+    "appearance": "界面明暗跟随设备设置。",
+    "privacy": "笔记在浏览器中处理。重新加载或关闭页面时，草稿和可撤销的内容会丢失。",
+    "download": "浏览器可能会询问下载权限或保存位置。",
+    "iphone": "在 iPhone 上从 Safari 添加到主屏幕时，如果看到“作为网页 App 打开”，请将其关闭。使用 Safari 打开可能更方便保存文件。",
+    "done": "已请求下载。",
+    "error": "无法开始下载，笔记仍保留在输入框中。"
+  },
+  "es": {
+    "undo": "Deshacer",
+    "about": "información",
+    "label": "Tu nota",
+    "intro": "Escribe Markdown y pulsa dump para solicitar un archivo con metadatos compatibles con Obsidian.",
+    "filename": "El nombre incluye la fecha y hora del dispositivo y hasta 10 caracteres de la primera línea.",
+    "undoInfo": "El campo se borra al solicitar la descarga, incluso si cancelas. Deshacer recupera el último texto mientras la página siga abierta; se desactiva si hay texto en el campo.",
+    "appearance": "La apariencia sigue el modo claro u oscuro del dispositivo.",
+    "privacy": "Las notas se procesan en el navegador. El borrador y el texto que se puede recuperar se pierden al recargar o cerrar la página.",
+    "download": "El navegador puede pedir permiso para descargar o preguntar dónde guardar.",
+    "iphone": "En iPhone, al añadir esta página a la pantalla de inicio desde Safari, desactiva «Abrir como app web» si aparece la opción. Abrirla en Safari puede facilitar el guardado.",
+    "done": "Descarga solicitada.",
+    "error": "No se pudo iniciar la descarga. Tu nota sigue aquí."
+  },
+  "ko": {
+    "undo": "되돌리기",
+    "about": "설명",
+    "label": "내 노트",
+    "intro": "Markdown을 입력하고 dump를 누르면 Obsidian 호환 메타데이터가 포함된 Markdown 파일의 다운로드를 요청합니다.",
+    "filename": "파일 이름에는 기기의 날짜와 시간, 첫 줄의 앞 10자까지 들어갑니다.",
+    "undoInfo": "다운로드를 요청하면 저장을 취소해도 입력란이 지워집니다. 페이지가 열려 있는 동안 되돌리기로 직전 내용을 복원할 수 있으며, 입력란에 글자가 있으면 사용할 수 없습니다.",
+    "appearance": "화면 밝기는 기기 설정을 따릅니다.",
+    "privacy": "내용은 브라우저에서 처리됩니다. 페이지를 닫거나 새로고침하면 작성 중인 내용과 복원할 내용이 사라집니다.",
+    "download": "브라우저에서 다운로드 권한이나 저장 위치를 물을 수 있습니다.",
+    "iphone": "iPhone의 Safari에서 홈 화면에 추가할 때 “웹 앱으로 열기” 옵션이 보이면 끄세요. Safari에서 열면 파일을 더 쉽게 저장할 수 있습니다.",
+    "done": "다운로드를 요청했습니다.",
+    "error": "다운로드를 시작하지 못했습니다. 입력한 내용은 그대로 남아 있습니다."
+  }
+};
   const preferred = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en'];
   const language = preferred.map(x => String(x).toLowerCase().split('-')[0]).find(x => Object.hasOwn(translations, x)) || 'en';
   const t = translations[language];
   document.documentElement.lang = language;
   document.querySelectorAll('[data-text]').forEach(el => { el.textContent = t[el.dataset.text]; });
-  document.querySelectorAll('[data-placeholder]').forEach(el => { el.placeholder = t[el.dataset.placeholder]; });
   const form = document.getElementById('post-form'), entry = document.getElementById('entry'), button = document.getElementById('post'), status = document.getElementById('status');
   const undo = document.getElementById('undo');
   let lastEntry = null;
