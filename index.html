@@ -59,7 +59,9 @@
       url = URL.createObjectURL(new Blob([content], {type:'text/markdown;charset=utf-8'}));
       const link = document.createElement('a');
       link.href = url;
-      link.download = `${date}_${time.replaceAll(':','-')}.md`;
+      const firstLine = entry.value.split(/\r?\n/, 1)[0];
+      const title = Array.from(firstLine).slice(0, 10).join('').replace(/[\\/:*?"<>|\x00-\x1f]/g, '_').trim().replace(/[. ]+$/g, '');
+      link.download = `${date}_${time.replaceAll(':','-')}${title ? '_' + title : ''}.md`;
       document.body.appendChild(link);
       link.click();
       link.remove();
