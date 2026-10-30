@@ -132,7 +132,7 @@
     const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
     const offset = -now.getTimezoneOffset();
     const zone = `${offset >= 0 ? '+' : '-'}${pad(Math.floor(Math.abs(offset)/60))}:${pad(Math.abs(offset)%60)}`;
-    const content = `---\ncreated: "${date}T${time}${zone}"\ntags: [microjournal]\n---\n\n${entry.value}\n`;
+    const content = `---\ncreated: "${date}T${time}${zone}"\n---\n\n${entry.value}\n`;
     let url;
     try {
       url = URL.createObjectURL(new Blob([content], {type:'text/markdown;charset=utf-8'}));
